@@ -8,40 +8,55 @@ const creatItem = ({preview, original, description}) => {
   </a></li>`; 
 }
 const makeGalleryWindow = gallerysItems.map(creatItem).join('');
-console.log(makeGalleryWindow);
 
 const refs = {
-  listGallery : document.querySelector('js-gallery'),
-  modal : document.querySelector('lightbox'),
-  backdrop : document.querySelector('lightbox__overlay'),
-  image : document.querySelector('lightbox__image'),
-  closeModalBtn : document.querySelector('lightbox__button'),
+  listGallery : document.querySelector('.js-gallery'),
+  modal : document.querySelector('.lightbox'),
+  backdrop : document.querySelector('.lightbox__overlay'),
+  image : document.querySelector('.lightbox__image'),
+  closeModalBtn : document.querySelector('.lightbox__button'),
 };
-console.log(refs);
 
+refs.listGallery.insertAdjacentHTML("afterbegin", makeGalleryWindow);  //добавляє вікно малюнків
+refs.listGallery.addEventListener('click', onOpenImg);    //робить перенаправлення і добавляє стилі модального вікна
+refs.closeModalBtn.addEventListener('click', onCloseModal);
 
+function onOpenImg(evt) {
+  evt.preventDefault();
+    if (evt.target.nodeName !== 'IMG') {
+        return;
+    };
 
+  refs.modal.classList.add('is-open');
+ //перенаправлення
+  refs.image.src = evt.target.dataset.source;
+  refs.image.alt = evt.target.alt;
+  //закриття по Esc
+  window.addEventListener('keydown' , onEscKeyPress);
+  window.addEventListener('click', onBackdropClick);
+};
 
+function onEscKeyPress (evt) {
+  if(evt.code !== 'Escape'){
+    return;
+  };
+  onCloseModal();
+}
 
+function onCloseModal () {
+    refs.modal.classList.remove('is-open');
+    window.removeEventListener('keydown' , onEscKeyPress);
+    window.removeEventListener('click', onBackdropClick);
+};
 
+function onBackdropClick (evt) {
+  if (evt.currentTarget === evt.target) {
+    onCloseModal ();
+  };
+  if (evt.code !== 'Escape') {
+    return ;
+  };
+  onCloseModal();
+};
 
-// preview:
-// 'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843__340.jpg',
-// original:
-// 'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg',
-// description: 'Lighthouse Coast Sea',
-// },
-/* <li class="gallery__item">
-  <a
-    // class="gallery__link"
-    href="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-  >
-    <img
-      class="gallery__image"
-      src="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546__340.jpg"
-      data-source="https://cdn.pixabay.com/photo/2010/12/13/10/13/tulips-2546_1280.jpg"
-      alt="Tulips"
-    />
-  </a>
-</li> */
 
