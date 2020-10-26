@@ -20,6 +20,7 @@ const refs = {
 refs.listGallery.insertAdjacentHTML("afterbegin", makeGalleryWindow);  //добавляє вікно малюнків
 refs.listGallery.addEventListener('click', onOpenImg);    //робить перенаправлення і добавляє стилі модального вікна
 refs.closeModalBtn.addEventListener('click', onCloseModal);
+refs.backdrop.addEventListener('click', onBackdropClick); 
 
 function onOpenImg(evt) {
   evt.preventDefault();
@@ -33,7 +34,6 @@ function onOpenImg(evt) {
   refs.image.alt = evt.target.alt;
   //закриття по Esc
   window.addEventListener('keydown' , onEscKeyPress);
-  refs.backdrop.addEventListener('click', onBackdropClick); 
 };
 
 function onEscKeyPress (evt) {
@@ -46,7 +46,6 @@ function onEscKeyPress (evt) {
 function onCloseModal () {
     refs.modal.classList.remove('is-open');
     window.removeEventListener('keydown' , onEscKeyPress);
-    window.removeEventListener('click', onBackdropClick);
 };
 
 function onBackdropClick (evt) {
