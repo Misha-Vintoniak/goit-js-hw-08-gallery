@@ -33,7 +33,7 @@ function onOpenImg(evt) {
   refs.image.alt = evt.target.alt;
   //закриття по Esc
   window.addEventListener('keydown' , onEscKeyPress);
-  window.addEventListener('click', onBackdropClick);
+  refs.backdrop.addEventListener('click', onBackdropClick); 
 };
 
 function onEscKeyPress (evt) {
@@ -53,10 +53,4 @@ function onBackdropClick (evt) {
   if (evt.currentTarget === evt.target) {
     onCloseModal ();
   };
-  if (evt.code !== 'Escape') {
-    return ;
-  };
-  onCloseModal();
 };
-
-
